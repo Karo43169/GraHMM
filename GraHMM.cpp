@@ -7,6 +7,9 @@
 void Render(int tex_height, int tex_width, SDL_Renderer* renderer, SDL_Texture* texture, int Mouse_x, int Mouse_y)
 {
 
+	// Clearing the screen
+	SDL_RenderClear(renderer);
+
 	// Here is the rectangle where the image will be on the screen
 	SDL_Rect rect;
 	rect.x = (int)round(Mouse_x - tex_width / 2); // Counting from the image's center but that's up to you
@@ -89,7 +92,7 @@ int main()
 	bool done = false;
 	SDL_Event sdl_event;
 	int startPosX = 400, startPosY = 500;
-	int Mouse_x, Mouse_y;
+	Render(tex_height, tex_width, renderer, texture, startPosX, startPosY);
 	// The main loop
 	// Every iteration is a frame
 	while (!done)
@@ -119,6 +122,7 @@ int main()
 			}
 			else if (sdl_event.type == SDL_MOUSEBUTTONDOWN)  // new event type for mouse key down
 			{
+				int Mouse_x, Mouse_y;
 				Uint32 mouseposition;
 				mouseposition = SDL_GetMouseState(&Mouse_x, &Mouse_y);
 				int i = startPosX, j = startPosY;
@@ -132,7 +136,7 @@ int main()
 						j--;
 					if (j < Mouse_y)
 						j++;
-					Render(tex_height, tex_width, renderer, texture, Mouse_x, Mouse_y); // get renderer to do stuff outside of mouse click button, but later :D
+					Render(tex_height, tex_width, renderer, texture, i, j); // get renderer to do stuff outside of mouse click button, but later :D
 					if (i == Mouse_x and j == Mouse_y)
 						break;
 				}
