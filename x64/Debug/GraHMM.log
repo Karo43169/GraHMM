@@ -1,0 +1,6 @@
+﻿  GraHMM.cpp
+A:\C++\projekty\GraHMM\GraHMM.cpp(368,10): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+A:\C++\projekty\GraHMM\GraHMM.cpp(369,10): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+A:\C++\projekty\GraHMM\GraHMM.cpp(456,27): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+A:\C++\projekty\GraHMM\GraHMM.cpp(457,27): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  GraHMM.vcxproj -> A:\C++\projekty\GraHMM\x64\Debug\GraHMM.exe

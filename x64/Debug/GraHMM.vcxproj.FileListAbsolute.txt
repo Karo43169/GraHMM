@@ -1,0 +1,3 @@
+A:\C++\projekty\GraHMM\x64\Debug\GraHMM.exe
+C:\Users\ja\Desktop\GraHMM\x64\Debug\GraHMM.exe
+C:\Users\Tobia\OneDrive\Pulpit\GraHMM\x64\Debug\GraHMM.exe
