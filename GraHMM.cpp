@@ -107,75 +107,13 @@ struct Unit
 
 	Vec2i startPosition;
 	Vec2i destiny;
+	Vec2i target;
 	Vec2i currpos;
 
 	float speedUnit;
 };
 
 typedef struct Unit Player_unit;
-//grassfire mój
-//void Grassfire(Board* board)
-//{
-//	printf("pinor");
-//	bool S = true;
-//	while (S)
-//	{
-//		//copying tables
-//		S = false;
-//		memcpy(board->Grassfire_Grid_cells, board->Grid_cells, sizeof(board->Grid_cells));
-//		for (int i = 0; i < Grid_cells_y; i++)
-//		{
-//			for (int j = 0; j < Grid_cells_x; j++)
-//			{
-//				int A = board->Grassfire_Grid_cells[i][j];
-//				// if cell is not 255 and is not marked as starting cell
-//				if (A != 255 && A != 0)
-//				{
-//					int B = A + 1;
-//					//setting values of neighboring cells to += 1 thus marking them as "passable"
-//					int x;
-//					if (j > 0)
-//					{
-//						x = board->Grassfire_Grid_cells[i][j - 1];
-//						if (x == 0)
-//						{
-//							board->Grid_cells[i][j - 1] = B;
-//							S = true;
-//						}
-//					}
-//					if (j < Grid_cells_x - 1)
-//					{
-//						x = board->Grassfire_Grid_cells[i][j + 1];
-//						if (x == 0)
-//						{
-//							board->Grid_cells[i][j + 1] = B;
-//							S = true;
-//						}
-//					}
-//					if (i > 0)
-//					{
-//						x = board->Grassfire_Grid_cells[i - 1][j];
-//						if (x == 0)
-//						{
-//							board->Grid_cells[i - 1][j] = B;
-//							S = true;
-//						}
-//					}
-//					if (i < Grid_cells_y - 1)
-//					{
-//						x = board->Grassfire_Grid_cells[i + 1][j];
-//						if (x == 0)
-//						{
-//							board->Grid_cells[i + 1][j] = B;
-//							S = true;
-//						}
-//					}
-//				}
-//			}
-//		}
-//	}
-//}
-
 //Grassfire po¿yczony
 void Grassfire(Board* board)
 {
@@ -252,15 +190,13 @@ void Move_unit_to_cell(Board board, Unit* unit)
 
 	int newCellX = currentCellX;
 	int newCellY = currentCellY;
-	printf("\n%i ", newCellX);
-	printf("%i\n", newCellY);
 	if (currentCellX > 0)
 	{
 		side = board.Grid_cells[currentCellY][(currentCellX - 1)];
 
 		if (side < minValue && side != 0)
 		{
-			printf("1");
+
 			minValue = side;
 			newCellX = (currentCellX - 1);
 			newCellY = currentCellY;
@@ -273,7 +209,7 @@ void Move_unit_to_cell(Board board, Unit* unit)
 		if (side < minValue && side != 0)
 		{
 			minValue = side;
-			printf("2");
+
 			newCellX = (currentCellX + 1);
 			newCellY = currentCellY;
 		}
@@ -285,7 +221,7 @@ void Move_unit_to_cell(Board board, Unit* unit)
 		if (side < minValue && side != 0)
 		{
 			minValue = side;
-			printf("3");
+
 			newCellX = currentCellX;
 			newCellY = (currentCellY - 1);
 		}
@@ -297,14 +233,14 @@ void Move_unit_to_cell(Board board, Unit* unit)
 		if (side < minValue && side != 0)
 		{
 			minValue = side;
-			printf("4");
+
 			newCellX = currentCellX;
 			newCellY = (currentCellY + 1);
 		}
 	}
 
-	unit->startPosition.x = (newCellX * GRID_CELL_SIZE) + (GRID_CELL_SIZE / 2);
-	unit->startPosition.y = (newCellY * GRID_CELL_SIZE) + (GRID_CELL_SIZE / 2);
+	unit->target.x = (newCellX * GRID_CELL_SIZE) + (GRID_CELL_SIZE / 2);
+	unit->target.y = (newCellY * GRID_CELL_SIZE) + (GRID_CELL_SIZE / 2);
 
 }
 int main(int argc, char* argv[])
@@ -356,6 +292,7 @@ int main(int argc, char* argv[])
 	P_Unit_1.speedUnit = 200.0f;
 	P_Unit_1.startPosition = { (3 * GRID_CELL_SIZE) + (GRID_CELL_SIZE / 2), (4 * GRID_CELL_SIZE) + (GRID_CELL_SIZE / 2) };
 	P_Unit_1.destiny = { P_Unit_1.startPosition.x, P_Unit_1.startPosition.y };
+	P_Unit_1.target = P_Unit_1.destiny;
 
 	P_Unit_1.unit_texture = Texture_set(surface, renderer, "Player.png");
 
@@ -383,7 +320,7 @@ int main(int argc, char* argv[])
 		float currentTick = (float)SDL_GetTicks() / 1000.f;
 		deltaTime = currentTick - lastTick;
 		lastTick = currentTick;
-		
+
 		while (SDL_PollEvent(&sdl_event))
 		{
 			if (sdl_event.type == SDL_QUIT) // The user wants to quit
@@ -410,26 +347,21 @@ int main(int argc, char* argv[])
 				switch (sdl_event.button.button)
 				{
 				case SDL_BUTTON_LEFT:
+				{
+					int Mouse_x, Mouse_y;
+					SDL_GetMouseState(&Mouse_x, &Mouse_y);
+					P_Unit_1.destiny = { Mouse_x, Mouse_y };
+					//sets 255 values, if used as start or end pos, as unreachable and exiting loop
+					if (board.Grid_cells[P_Unit_1.startPosition.y / GRID_CELL_SIZE][P_Unit_1.startPosition.x / GRID_CELL_SIZE] == 255 or board.Grid_cells[P_Unit_1.destiny.y / GRID_CELL_SIZE][P_Unit_1.destiny.x / GRID_CELL_SIZE] == 255)
 					{
-						int Mouse_x, Mouse_y;
-						SDL_GetMouseState(&Mouse_x, &Mouse_y);
-						P_Unit_1.destiny = { Mouse_x, Mouse_y };
-						printf("%i\n", P_Unit_1.destiny.x);
-						printf("%i\n", P_Unit_1.destiny.y);
-						//sets 255 values, if used as start or end pos, as unreachable and exiting loop
-						if (board.Grid_cells[P_Unit_1.startPosition.y / GRID_CELL_SIZE][P_Unit_1.startPosition.x / GRID_CELL_SIZE] == 255 or board.Grid_cells[P_Unit_1.destiny.y/ GRID_CELL_SIZE][P_Unit_1.destiny.x / GRID_CELL_SIZE] == 255)
-						{
-							reachable = false;
-							break;
-						}
-						Board_create(&board);
-						reachable = true;
-						cangrassfire = true;
-						//board.Grid_cells[P_Unit_1.startPosition.x][P_Unit_1.startPosition.y] = 1;
-						board.Grid_cells[P_Unit_1.destiny.y / GRID_CELL_SIZE][P_Unit_1.destiny.x / GRID_CELL_SIZE] = 1;
-						Grassfire(&board);
+						reachable = false;
+						break;
 					}
-					break;
+
+					reachable = true;
+					cangrassfire = true;
+				}
+				break;
 				default:
 					break;
 				}
@@ -443,7 +375,7 @@ int main(int argc, char* argv[])
 			for (int j = 0; j < Grid_cells_x; ++j)
 			{
 				Rectangle_Set(&rect, j * tex_width, i * tex_height, tex_width, tex_height);
-				Render(renderer, (board.Grid_cells[i][j] == 255 ? board.Texture_obstacle : board.Texture_cell_default), rect );
+				Render(renderer, (board.Grid_cells[i][j] == 255 ? board.Texture_obstacle : board.Texture_cell_default), rect);
 			}
 		}
 
@@ -452,48 +384,48 @@ int main(int argc, char* argv[])
 
 		// Showing the screen to the player
 		SDL_RenderPresent(renderer);
-		
+
 		if (reachable)
 		{
 
 			P_Unit_1.currpos.x = x / GRID_CELL_SIZE;
 			P_Unit_1.currpos.y = y / GRID_CELL_SIZE;
 			cell_reached = true;
-			if (fabs(x - P_Unit_1.destiny.x) >= destiny) 
+			if (fabs(x - P_Unit_1.target.x) >= destiny)
 			{
-				if (x > P_Unit_1.destiny.x) 
+				if (x > P_Unit_1.target.x)
 				{
 					x -= P_Unit_1.speedUnit * deltaTime;
 				}
-				else 
+				else
 				{
 					x += P_Unit_1.speedUnit * deltaTime;
 				}
 				cell_reached = false;
 			}
-			if (fabs(y - P_Unit_1.destiny.y) >= destiny) 
+			if (fabs(y - P_Unit_1.target.y) >= destiny)
 			{
-				if (y > P_Unit_1.destiny.y) 
+				if (y > P_Unit_1.target.y)
 				{
 					y -= P_Unit_1.speedUnit * deltaTime;
 				}
-				else 
+				else
 				{
 					y += P_Unit_1.speedUnit * deltaTime;
 				}
 				cell_reached = false;
 			}
 
-			/*if (cell_reached && cangrassfire)
+			if (cell_reached && cangrassfire)
 			{
-				printf("//////////asdogfikdhjasfioguefdhroigehroigfvhrdfgihdjsapighadsfoighdfpigejqrpoifjeqrpiofvis true");
+				Board_create(&board);
+				board.Grid_cells[P_Unit_1.destiny.y / GRID_CELL_SIZE][P_Unit_1.destiny.x / GRID_CELL_SIZE] = 1;
 				Grassfire(&board);
 
 				cangrassfire = false;
-			}*/
-			if (cell_reached &&((P_Unit_1.destiny.x/GRID_CELL_SIZE) != P_Unit_1.currpos.x) || ((P_Unit_1.destiny.y/GRID_CELL_SIZE) != P_Unit_1.currpos.y))
+			}
+			if (cell_reached && ((P_Unit_1.destiny.x / GRID_CELL_SIZE) != P_Unit_1.currpos.x) || ((P_Unit_1.destiny.y / GRID_CELL_SIZE) != P_Unit_1.currpos.y))
 			{
-
 				Move_unit_to_cell(board, &P_Unit_1);
 			}
 		}
