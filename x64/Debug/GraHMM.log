@@ -1,0 +1,14 @@
+﻿  GraHMM.cpp
+A:\C++\projekty\GraHMM\GraHMM.cpp(93,17): warning C4244: '=': conversion from 'ufloat' to 'int', possible loss of data
+A:\C++\projekty\GraHMM\GraHMM.cpp(94,17): warning C4244: '=': conversion from 'ufloat' to 'int', possible loss of data
+A:\C++\projekty\GraHMM\GraHMM.cpp(177,10): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+A:\C++\projekty\GraHMM\GraHMM.cpp(199,18): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+A:\C++\projekty\GraHMM\GraHMM.cpp(569,84): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+A:\C++\projekty\GraHMM\GraHMM.cpp(579,83): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+A:\C++\projekty\GraHMM\GraHMM.cpp(613,27): warning C4838: conversion from 'uint' to 'ufloat' requires a narrowing conversion
+A:\C++\projekty\GraHMM\GraHMM.cpp(613,27): warning C4244: 'initializing': conversion from 'uint' to 'ufloat', possible loss of data
+A:\C++\projekty\GraHMM\GraHMM.cpp(613,37): warning C4838: conversion from 'uint' to 'ufloat' requires a narrowing conversion
+A:\C++\projekty\GraHMM\GraHMM.cpp(613,37): warning C4244: 'initializing': conversion from 'uint' to 'ufloat', possible loss of data
+A:\C++\projekty\GraHMM\GraHMM.cpp(616,11): warning C4101: 'rect': unreferenced local variable
+A:\C++\projekty\GraHMM\GraHMM.cpp(850,8): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+  GraHMM.vcxproj -> A:\C++\projekty\GraHMM\x64\Debug\GraHMM.exe

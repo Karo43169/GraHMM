@@ -145,6 +145,7 @@
     <Library Include="SDL2\SDL2.lib" />
     <Library Include="SDL2\SDL2main.lib" />
     <Library Include="SDL2\SDL2_image.lib" />
+    <Library Include="SDL2\SDL2_ttf.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
